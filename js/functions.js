@@ -18,6 +18,5 @@ function isPalindrome (str) {
     newString += currentSymbol;
   }
 
-  console.log(newString);
   return(newString === normalizedString);
 }
