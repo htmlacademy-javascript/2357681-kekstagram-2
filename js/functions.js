@@ -8,7 +8,7 @@ function checkStringLength (string, maxLength) {
   return false;
 }
 
-function isPalindrome (str) {
+function checkPalindrome (str) {
   const normalizedString = str.toLowerCase().replaceAll(' ', '');
   let newString = '';
   const currentLength = normalizedString.length;
