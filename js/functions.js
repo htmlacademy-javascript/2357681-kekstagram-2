@@ -1,22 +1,31 @@
-function checkStringLength (string, maxLength) {
-  const currentLength = string.length;
-
-  if (currentLength <= maxLength) {
+const checkStringLength = (string, maxLength) => {
+  if (string.length <= maxLength) {
     return true;
   }
 
   return false;
-}
+};
 
-function checkPalindrome (str) {
-  const normalizedString = str.toLowerCase().replaceAll(' ', '');
+const checkPalindrome = (string) => {
+  const normalizedString = string.toLowerCase().replaceAll(' ', '');
   let newString = '';
-  const currentLength = normalizedString.length;
 
-  for (let currentIndex = currentLength - 1; currentIndex >= 0; currentIndex--) {
-    let currentSymbol = normalizedString[currentIndex];
-    newString += currentSymbol;
+  for (let currentIndex = normalizedString.length - 1; currentIndex >= 0; currentIndex--) {
+    newString += normalizedString[currentIndex];
   }
 
-  return(newString === normalizedString);
-}
+  return newString === normalizedString;
+};
+
+const getNumbers = (string) => {
+  let result = '';
+  string = string.toString();
+
+  for (let i = 0; i <= string.length - 1; i++) {
+    if (Number.isNaN(parseInt(string[i], 10)) === false) {
+      result += string[i];
+    }
+  }
+
+  return result === '' ? NaN : parseInt(result, 10);
+};
