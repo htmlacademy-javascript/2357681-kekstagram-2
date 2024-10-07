@@ -78,7 +78,7 @@ const createComment = () => {
     const comment = {};
     const idAvatar = getRandomInteger(MIN_AVATAR, MAX_AVATAR);
     comment.id = id++;
-    comment.avatar = 'img/avatar-{idAvatar()}.svg';
+    comment.avatar = `img/avatar-${idAvatar()}.svg`;
     comment.message = MESSAGES[randomMessageIndex()];
     comment.name = NAMES[randomNameIndex()];
 
@@ -96,7 +96,7 @@ const createPhoto = () => {
     const randomDescriptionIndex = getRandomInteger(0, DESCRIPTIONS.length - 1);
 
     photo.id = id;
-    photo.url = 'photos/{id}.jpg';
+    photo.url = `photos/${id}.jpg`;
     photo.description = DESCRIPTIONS[randomDescriptionIndex()];
     photo.likes = quantLikes();
     photo.comments = Array.from({length: quantComments()}, createComment());
