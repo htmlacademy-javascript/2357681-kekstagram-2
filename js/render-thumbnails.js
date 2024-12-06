@@ -12,10 +12,11 @@ const renderThumbnails = () => {
 
   usersThumbnails.forEach((photo) => {
     const usersElement = thumbnailsTemplate.cloneNode(true);
+    usersElement.dataset.pictureId = photo.id;
     usersElement.querySelector('.picture__img').src = photo.url;
     usersElement.querySelector('.picture__img').alt = photo.description;
     usersElement.querySelector('.picture__likes').textContent = photo.likes;
-    usersElement.querySelector('.picture__comments').textContent = photo.comments.length;
+    usersElement.querySelector('.picture__comments').textContent = photo.comments;
     usersThumbnailsFragment.appendChild(usersElement);
   });
 
@@ -24,3 +25,4 @@ const renderThumbnails = () => {
 };
 
 export {renderThumbnails};
+export {pictures};
