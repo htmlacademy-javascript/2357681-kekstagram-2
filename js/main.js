@@ -1,5 +1,6 @@
 import './util.js';
-import {CreatePhotoList} from './data.js';
-import './thumbnails.js';
+import {createPhotoList} from './data.js';
+import {renderThumbnails} from './render-thumbnails.js';
 
-console.log(CreatePhotoList());
+console.log(createPhotoList());
+console.log(renderThumbnails());
