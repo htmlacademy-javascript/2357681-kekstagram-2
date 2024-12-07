@@ -24,5 +24,4 @@ const renderThumbnails = () => {
 
 };
 
-export {renderThumbnails};
-export {pictures};
+export {renderThumbnails, pictures};

@@ -19,17 +19,17 @@ const onClickButtonClose = (evt) => {
 
 
 const openFullPicture = (pictureId) => {
-  const currentPhoto = pictures.find((photo)) => photo.id === Number(pictureId);
+  const currentPhoto = pictures.find((photo) => photo.id === Number(pictureId));
 
   document.querySelector('body').classList.add('modal-open');
-    document.querySelector('.big-picture').classList.remove('hidden');
-    document.querySelector('.big-picture .big-picture__img img').src = photo.url;
-    document.querySelector('.likes-count').textContent = photo.likes;
-    document.querySelector('.social__comment-shown-count').textContent = photo.comments.length;
-    document.querySelector('.social__caption').textContent = photo.description;
-    document.addEventListener('keydown', onDocumentKeydown);
-    closeButton.addEventListener('click', onClickButtonClose);
-  };
+  document.querySelector('.big-picture').classList.remove('hidden');
+  document.querySelector('.big-picture .big-picture__img img').src = currentPhoto.url;
+  document.querySelector('.likes-count').textContent = currentPhoto.likes;
+  document.querySelector('.social__comment-shown-count').textContent = currentPhoto.comments.length;
+  document.querySelector('.social__caption').textContent = currentPhoto.description;
+  document.addEventListener('keydown', onDocumentKeydown);
+  closeButton.addEventListener('click', onClickButtonClose);
+};
 
 
 function closeFullPicture() {

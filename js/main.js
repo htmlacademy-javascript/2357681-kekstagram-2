@@ -11,5 +11,3 @@ pictures.addEventListener('click', (evt) => {
   }
 });
 
-console.log(createPhotoList);
-console.log(renderThumbnails);
