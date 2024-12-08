@@ -3,7 +3,8 @@ import {picturesContainer} from './render-thumbnails.js';
 import {createComment} from './data.js';
 
 const closeButton = document.querySelector('.big-picture__cancel');
-const commentsList = document.querySelector('.social__comments');
+const commentsList = document.querySelector('.social__comments'); //socialCommentsNode
+const commentTemplate = commentsList.querySelector('.social__comment');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -20,6 +21,7 @@ const onClickButtonClose = (evt) => {
 
 const openFullPicture = (pictureId, data) => {
   const currentPhoto = data.find((photo) => photo.id === Number(pictureId));
+  const commentsFragment = document.createDocumentFragment();
 
   document.querySelector('body').classList.add('modal-open');
   document.querySelector('.big-picture').classList.remove('hidden');
@@ -27,6 +29,21 @@ const openFullPicture = (pictureId, data) => {
   document.querySelector('.likes-count').textContent = currentPhoto.likes;
   document.querySelector('.social__comment-shown-count').textContent = currentPhoto.comments.length;
   document.querySelector('.social__caption').textContent = currentPhoto.description;
+
+  commentsList.innerHTML = '';
+
+  currentPhoto.comments.forEach((comment) => {
+    const pictureComment = commentTemplate.cloneNode(true);
+
+    pictureComment.querySelector('.social__picture').src = comment.avatar;
+    pictureComment.querySelector('.social__picture').alt = comment.name;
+    pictureComment.querySelector('.social__text').textContent = comment.message;
+
+    commentsFragment.appendChild(pictureComment);
+  });
+
+  commentsList.appendChild(commentsFragment);
+
   document.addEventListener('keydown', onDocumentKeydown);
   closeButton.addEventListener('click', onClickButtonClose);
 };
