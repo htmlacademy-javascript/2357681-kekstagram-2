@@ -16,7 +16,7 @@ const renderThumbnails = () => {
     usersElement.querySelector('.picture__img').src = photo.url;
     usersElement.querySelector('.picture__img').alt = photo.description;
     usersElement.querySelector('.picture__likes').textContent = photo.likes;
-    usersElement.querySelector('.picture__comments').textContent = photo.comments;
+    usersElement.querySelector('.picture__comments').textContent = photo.comments.length;
     usersThumbnailsFragment.appendChild(usersElement);
   });
 

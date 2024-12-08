@@ -18,8 +18,8 @@ const onClickButtonClose = (evt) => {
 };
 
 
-const openFullPicture = (pictureId) => {
-  const currentPhoto = pictures.find((photo) => photo.id === Number(pictureId));
+const openFullPicture = (pictureId, data) => {
+  const currentPhoto = data.find((photo) => photo.id === Number(pictureId));
 
   document.querySelector('body').classList.add('modal-open');
   document.querySelector('.big-picture').classList.remove('hidden');
@@ -40,5 +40,15 @@ function closeFullPicture() {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-export {openFullPicture, closeFullPicture};
+const initClickListener = (data) => {
+  pictures.addEventListener('click', (evt) => {
+    const currentPicture = evt.target.closest('.picture');
+
+    if (currentPicture) {
+      openFullPicture(currentPicture.dataset.pictureId, data);
+    }
+  });
+};
+
+export {openFullPicture, closeFullPicture, initClickListener};
 
