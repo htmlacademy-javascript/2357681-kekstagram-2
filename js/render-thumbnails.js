@@ -1,7 +1,7 @@
 import {createPhotoList} from './data.js';
 
-const pictures = document.querySelector('.pictures');
-const thumbnailsTemplate = document.querySelector('#picture')
+const picturesContainer = document.querySelector('.pictures');
+const thumbnailTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
@@ -11,7 +11,7 @@ const renderThumbnails = () => {
   const usersThumbnailsFragment = document.createDocumentFragment();
 
   usersThumbnails.forEach((photo) => {
-    const usersElement = thumbnailsTemplate.cloneNode(true);
+    const usersElement = thumbnailTemplate.cloneNode(true);
     usersElement.dataset.pictureId = photo.id;
     usersElement.querySelector('.picture__img').src = photo.url;
     usersElement.querySelector('.picture__img').alt = photo.description;
@@ -20,8 +20,8 @@ const renderThumbnails = () => {
     usersThumbnailsFragment.appendChild(usersElement);
   });
 
-  pictures.appendChild(usersThumbnailsFragment);
+  picturesContainer.appendChild(usersThumbnailsFragment);
 
 };
 
-export {renderThumbnails, pictures};
+export {renderThumbnails, picturesContainer};

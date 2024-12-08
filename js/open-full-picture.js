@@ -1,5 +1,5 @@
 import {isEscapeKey} from './util.js';
-import {pictures} from './render-thumbnails.js';
+import {picturesContainer} from './render-thumbnails.js';
 import {createComment} from './data.js';
 
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -41,7 +41,7 @@ function closeFullPicture() {
 }
 
 const initClickListener = (data) => {
-  pictures.addEventListener('click', (evt) => {
+  picturesContainer.addEventListener('click', (evt) => {
     const currentPicture = evt.target.closest('.picture');
 
     if (currentPicture) {
