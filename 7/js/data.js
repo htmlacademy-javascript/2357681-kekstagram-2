@@ -96,4 +96,4 @@ const createPhoto = () => {
 
 const createPhotoList = () => Array.from({length: PHOTO_LIST_LENGTH}, createPhoto());
 
-export {createPhotoList};
+export {createPhotoList, createComment};
