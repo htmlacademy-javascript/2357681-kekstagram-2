@@ -1,5 +1,12 @@
 import './util.js';
-import {CreatePhotoList} from './data.js';
-import './thumbnails.js';
+import {createPhotoList} from './data.js';
+import {renderThumbnails, picturesContainer} from './render-thumbnails.js';
+import {initClickListener} from './open-full-picture.js';
 
-console.log(CreatePhotoList());
+const data = createPhotoList();
+
+renderThumbnails(data);
+initClickListener(data);
+
+
+
