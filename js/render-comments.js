@@ -27,20 +27,13 @@ const renderNextComments = () => {
   commentsList.appendChild(commentsFragment);
 
   commentCount.firstChild.textContent = `${renderedCommentsLength} из `;
-  commentCount.querySelector('.comments-count').textContent = comments.length;
+  document.querySelector('.social__comment-total-count').textContent = comments.length;
 
   if (renderedCommentsLength >= comments.length) {
-    commentsLoader.classList.add('hidden');
+    commentsLoader.classList.add('.hidden');
   }
 
   shownComments += VISIBLE_COMMENTS;
-};
-
-const clearComments = () => {
-  shownComments = 0;
-  commentsList.innerHTML = '';
-  commentsLoader.classList.remove('hidden');
-  commentsLoader.removeEventListener('click', renderNextComments);
 };
 
 const renderComments = (currentPhotoComments) => {
@@ -48,6 +41,13 @@ const renderComments = (currentPhotoComments) => {
   renderNextComments();
 
   commentsLoader.addEventListener('click', renderNextComments);
+};
+
+const clearComments = () => {
+  shownComments = 0;
+  commentsList.innerHTML = '';
+  commentsLoader.classList.remove('hidden');
+  commentsLoader.removeEventListener('click', renderNextComments);
 };
 
 export {clearComments, renderComments};
