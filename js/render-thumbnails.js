@@ -5,9 +5,7 @@ const thumbnailTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const usersThumbnails = createPhotoList ();
-
-const renderThumbnails = () => {
+const renderThumbnails = (usersThumbnails) => {
   const usersThumbnailsFragment = document.createDocumentFragment();
 
   usersThumbnails.forEach((photo) => {

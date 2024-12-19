@@ -14,5 +14,4 @@ const getRandomInteger = (a, b) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger};
-export {isEscapeKey};
+export {getRandomInteger, isEscapeKey};
