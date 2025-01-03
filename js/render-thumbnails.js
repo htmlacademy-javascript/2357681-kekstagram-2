@@ -1,5 +1,3 @@
-import {createPhotoList} from './data.js';
-
 const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture')
   .content
