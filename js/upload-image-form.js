@@ -69,11 +69,11 @@ const onFormSubmit = () => {
   });
 };
 
-pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
+const isCommentValid = (value) => (
+  value.length <= 140
+);
 
-function isCommentValid (value) {
-  return value.length <= 140;
-}
+pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
 
 pristine.addValidator(commentInput, isCommentValid, 'Комментарий не должен быть длиннее 140 символов');
 
