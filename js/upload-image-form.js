@@ -1,3 +1,4 @@
+import { resetEffects } from './add-effect-slider.js';
 import { error, isHashtagValid } from './check-hashtag.js';
 import {isEscapeKey} from './util.js';
 
@@ -11,6 +12,7 @@ const hashtagInput = uploadImgForm.querySelector('.text__hashtags');
 const commentInput = uploadImgForm.querySelector('.text__description');
 const submitButton = uploadImgForm.querySelector('.img-upload__submit');
 
+
 const SCALE_STEP = 0.25;
 let scale = 1;
 const image = uploadImgForm.querySelector('.img-upload__preview img');
@@ -21,8 +23,8 @@ const bigger = uploadImgForm.querySelector('.scale__control--bigger');
 
 const pristine = new Pristine(uploadImgForm, {
   classTo: 'img-upload__form',
-  errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
+  errorClass: 'img-upload__field-wrapper--error',
 });
 
 const onUploadCancelBtnClick = () => {
@@ -42,6 +44,9 @@ const onDocumentKeyDown = (evt) => {
 function closeImgEditor () {
   editorImgForm.classList.add('hidden');
   pageBody.classList.remove('modal-open');
+  uploadImgForm.reset();
+  pristine.reset();
+  resetEffects();
   document.removeEventListener('keydown', onDocumentKeyDown);
   uploadCancelBtn.removeEventListener('click', onUploadCancelBtnClick);
   fileField.value = '';
