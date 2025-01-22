@@ -1,3 +1,4 @@
+import { resetEffects } from './add-effect-slider.js';
 import { error, isHashtagValid } from './check-hashtag.js';
 import {isEscapeKey} from './util.js';
 
@@ -11,10 +12,19 @@ const hashtagInput = uploadImgForm.querySelector('.text__hashtags');
 const commentInput = uploadImgForm.querySelector('.text__description');
 const submitButton = uploadImgForm.querySelector('.img-upload__submit');
 
+
+const SCALE_STEP = 0.25;
+let scale = 1;
+const image = uploadImgForm.querySelector('.img-upload__preview img');
+const scaleControl = uploadImgForm.querySelector('.scale__control--value');
+const smaller = uploadImgForm.querySelector('.scale__control--smaller');
+const bigger = uploadImgForm.querySelector('.scale__control--bigger');
+
+
 const pristine = new Pristine(uploadImgForm, {
   classTo: 'img-upload__form',
-  errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
+  errorClass: 'img-upload__field-wrapper--error',
 });
 
 const onUploadCancelBtnClick = () => {
@@ -34,6 +44,9 @@ const onDocumentKeyDown = (evt) => {
 function closeImgEditor () {
   editorImgForm.classList.add('hidden');
   pageBody.classList.remove('modal-open');
+  uploadImgForm.reset();
+  pristine.reset();
+  resetEffects();
   document.removeEventListener('keydown', onDocumentKeyDown);
   uploadCancelBtn.removeEventListener('click', onUploadCancelBtnClick);
   fileField.value = '';
@@ -69,11 +82,28 @@ const onFormSubmit = () => {
   });
 };
 
-pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
+const isCommentValid = (value) => (
+  value.length <= 140
+);
 
-function isCommentValid (value) {
-  return value.length <= 140;
-}
+const onSmallerClick = () => {
+  if (scale > SCALE_STEP) {
+    image.style.transform = `scale(${scale -= SCALE_STEP})`;
+    scaleControl.value = `${scale * 100}%`;
+  }
+};
+
+const onBiggerClick = () => {
+  if (scale < 1) {
+    image.style.transform = `scale(${scale += SCALE_STEP})`;
+    scaleControl.value = `${scale * 100}%`;
+  }
+};
+
+smaller.addEventListener('click', onSmallerClick);
+bigger.addEventListener('click', onBiggerClick);
+
+pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
 
 pristine.addValidator(commentInput, isCommentValid, 'Комментарий не должен быть длиннее 140 символов');
 
