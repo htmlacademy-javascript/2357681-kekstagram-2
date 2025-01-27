@@ -5,7 +5,7 @@ const MAX_SYMBOLS = 20;
 
 let errorMessage = '';
 
-const error = () => errorMessage;
+const hashtagError = () => errorMessage;
 
 const isHashtagValid = (value) => {
 
@@ -65,5 +65,5 @@ const isHashtagValid = (value) => {
 
 };
 
-export {error, isHashtagValid};
+export {hashtagError, isHashtagValid};
 

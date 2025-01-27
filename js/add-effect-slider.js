@@ -1,4 +1,4 @@
-const EFFECTS = [
+const EFFECTS_LIST = [
   {
     name: 'none',
     style: 'none',
@@ -49,7 +49,7 @@ const EFFECTS = [
   },
 ];
 
-const DEFAULT_EFFECT = EFFECTS[0];
+const DEFAULT_EFFECT = EFFECTS_LIST[0];
 let chosenEffect = DEFAULT_EFFECT;
 
 const slider = document.querySelector('.effect-level__slider');
@@ -89,7 +89,7 @@ const onEffectsChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  chosenEffect = EFFECTS_LIST.find((effect) => effect.name === evt.target.value);
   image.className = `effects__preview--${chosenEffect.name}`;
   updateSlider();
 };

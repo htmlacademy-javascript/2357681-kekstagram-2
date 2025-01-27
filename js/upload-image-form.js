@@ -1,6 +1,8 @@
 import { resetEffects } from './add-effect-slider.js';
-import { error, isHashtagValid } from './check-hashtag.js';
+import { hashtagError, isHashtagValid } from './check-hashtag.js';
 import {isEscapeKey} from './util.js';
+
+const SCALE_STEP = 0.25;
 
 const pageBody = document.querySelector('body');
 const uploadImgForm = document.querySelector('.img-upload__form');
@@ -12,17 +14,16 @@ const hashtagInput = uploadImgForm.querySelector('.text__hashtags');
 const commentInput = uploadImgForm.querySelector('.text__description');
 const submitButton = uploadImgForm.querySelector('.img-upload__submit');
 
-
-const SCALE_STEP = 0.25;
-let scale = 1;
 const image = uploadImgForm.querySelector('.img-upload__preview img');
 const scaleControl = uploadImgForm.querySelector('.scale__control--value');
 const smaller = uploadImgForm.querySelector('.scale__control--smaller');
 const bigger = uploadImgForm.querySelector('.scale__control--bigger');
+const commentError = 'Комментарий не должен быть длиннее 140 символов';
+let scale = 1;
 
 
 const pristine = new Pristine(uploadImgForm, {
-  classTo: 'img-upload__form',
+  classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
 });
@@ -82,9 +83,8 @@ const onFormSubmit = () => {
   });
 };
 
-const isCommentValid = (value) => (
-  value.length <= 140
-);
+const isCommentValid = (value) => value.length <= 140;
+
 
 const onSmallerClick = () => {
   if (scale > SCALE_STEP) {
@@ -103,9 +103,9 @@ const onBiggerClick = () => {
 smaller.addEventListener('click', onSmallerClick);
 bigger.addEventListener('click', onBiggerClick);
 
-pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
+pristine.addValidator(hashtagInput, isHashtagValid, hashtagError);
 
-pristine.addValidator(commentInput, isCommentValid, 'Комментарий не должен быть длиннее 140 символов');
+pristine.addValidator(commentInput, isCommentValid, commentError);
 
 export {openImgEditor, onFormSubmit};
 
