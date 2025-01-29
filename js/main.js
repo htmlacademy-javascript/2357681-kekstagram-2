@@ -1,4 +1,4 @@
-import './util.js';
+import {showAlert} from './util.js';
 import {createPhotoList} from './data.js';
 import {renderThumbnails} from './render-thumbnails.js';
 import {initClickListener} from './open-full-picture.js';
@@ -12,6 +12,11 @@ initClickListener(picturesDataList);
 
 openImgEditor();
 
-getData();
+try {
+  const data = await getData();
+  renderThumbnails(data);
+} catch (err) {
+  showAlert(err.message);
+}
 
 
