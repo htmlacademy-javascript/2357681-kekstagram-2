@@ -1,6 +1,8 @@
 import { resetEffects } from './add-effect-slider.js';
-import { error, isHashtagValid } from './check-hashtag.js';
+import { hashtagError, isHashtagValid } from './check-hashtag.js';
 import {isEscapeKey} from './util.js';
+
+const SCALE_STEP = 0.25;
 
 const pageBody = document.querySelector('body');
 const uploadImgForm = document.querySelector('.img-upload__form');
@@ -11,18 +13,20 @@ const uploadCancelBtn = editorImgForm.querySelector('#upload-cancel');
 const hashtagInput = uploadImgForm.querySelector('.text__hashtags');
 const commentInput = uploadImgForm.querySelector('.text__description');
 const submitButton = uploadImgForm.querySelector('.img-upload__submit');
-
-
-const SCALE_STEP = 0.25;
-let scale = 1;
 const image = uploadImgForm.querySelector('.img-upload__preview img');
 const scaleControl = uploadImgForm.querySelector('.scale__control--value');
 const smaller = uploadImgForm.querySelector('.scale__control--smaller');
 const bigger = uploadImgForm.querySelector('.scale__control--bigger');
+const successElement = document.querySelector('#success').content.querySelector('.success');
+const successButtonElement = document.querySelector('#success').content.querySelector('.success__button');
+const errorElement = document.querySelector('#error').content.querySelector('.error');
+const errorButtonElement = document.querySelector('#error').content.querySelector('.error__button');
+const commentError = 'Комментарий не должен быть длиннее 140 символов';
+let scale = 1;
 
 
 const pristine = new Pristine(uploadImgForm, {
-  classTo: 'img-upload__form',
+  classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
 });
@@ -71,20 +75,76 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const onFormSubmit = () => {
-  uploadImgForm.addEventListener('submit', (evt) => {
+const showSuccessMessage = () => {
+  let flag = false;
+  return () => {
+    if (!flag) {
+      flag = true;
+      document.body.append(successElement);
+    } else {
+      const successElementClone = document.querySelector('.success');
+      successElementClone.classList.remove('hidden');
+    }
+  };
+};
+const showFullSuccessMessage = showSuccessMessage();
+
+const showErrorMessage = () => {
+  let flag = false;
+  return () => {
+    if (!flag) {
+      flag = true;
+      document.body.append(errorElement);
+    } else {
+      const errorElementClone = document.querySelector('.error');
+      errorElementClone.classList.remove('hidden');
+    }
+  };
+};
+const showFullErrorMessage = showErrorMessage();
+
+const hideModalMessage = () => {
+  successElement.classList.add('hidden');
+  errorElement.classList.add('hidden');
+};
+
+const onBodyClick = (evt) => {
+  evt.stopPropagation();
+  if (evt.target.matches('.success') || evt.target.matches('.error')) {
+    hideModalMessage();
+    document.removeEventListener('click', onBodyClick);
+  }
+};
+
+const onCloseButtonClick = () => {
+  hideModalMessage();
+};
+
+const onEscPress = (evt) => {
+  if (isEscapeKey(evt)) {
+    hideModalMessage();
+    document.removeEventListener('keydown', onEscPress);
+  }
+};
+
+const onFormSubmit = (cb) => {
+  uploadImgForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
       blockSubmitButton();
+      successButtonElement.addEventListener('click', onCloseButtonClick);
+      errorButtonElement.addEventListener('click', onCloseButtonClick);
+      document.addEventListener('keydown', onEscPress);
+      document.addEventListener('click', onBodyClick);
+      await cb(new FormData(uploadImgForm));
       unblockSubmitButton();
     }
   });
 };
 
-const isCommentValid = (value) => (
-  value.length <= 140
-);
+const isCommentValid = (value) => value.length <= 140;
+
 
 const onSmallerClick = () => {
   if (scale > SCALE_STEP) {
@@ -103,9 +163,9 @@ const onBiggerClick = () => {
 smaller.addEventListener('click', onSmallerClick);
 bigger.addEventListener('click', onBiggerClick);
 
-pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
+pristine.addValidator(hashtagInput, isHashtagValid, hashtagError);
 
-pristine.addValidator(commentInput, isCommentValid, 'Комментарий не должен быть длиннее 140 символов');
+pristine.addValidator(commentInput, isCommentValid, commentError);
 
-export {openImgEditor, onFormSubmit};
+export {openImgEditor, closeImgEditor, onFormSubmit, showFullSuccessMessage, showFullErrorMessage};
 
