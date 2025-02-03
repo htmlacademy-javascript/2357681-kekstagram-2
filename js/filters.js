@@ -1,3 +1,5 @@
+import {renderThumbnails} from './render-thumbnails.js';
+
 const PHOTOS_COUNT = 10;
 
 const imgFiltersElement = document.querySelector('.img-filters');
@@ -22,19 +24,19 @@ const compareThumbnails = (photoA, photoB) => {
   return rankB - rankA;
 };
 
-const initFilterListeners = (photos, showThumbnails) => {
+const initFilterListeners = (photos) => {
   defaultFilterButton.addEventListener('click', (evt) => {
-    showThumbnails(photos);
+    renderThumbnails(photos);
     setActiveFilter(evt.target);
   });
 
   randomFilterButton.addEventListener('click', (evt) => {
-    showThumbnails(photos.slice().sort(mixThumbnails).slice(0, PHOTOS_COUNT));
+    renderThumbnails(photos.slice().sort(mixThumbnails).slice(0, PHOTOS_COUNT));
     setActiveFilter(evt.target);
   });
 
   discussedFilterButton.addEventListener('click', (evt) => {
-    showThumbnails(photos.slice().sort(compareThumbnails));
+    renderThumbnails(photos.slice().sort(compareThumbnails));
     setActiveFilter(evt.target);
   });
 };
