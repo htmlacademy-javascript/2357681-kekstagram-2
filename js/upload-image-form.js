@@ -31,10 +31,6 @@ const pristine = new Pristine(uploadImgForm, {
   errorClass: 'img-upload__field-wrapper--error',
 });
 
-const onUploadCancelBtnClick = () => {
-  closeImgEditor();
-};
-
 const onDocumentKeyDown = (evt) => {
   if (isEscapeKey(evt)
     && !evt.target.classList.contains('text__hashtags')
@@ -43,6 +39,10 @@ const onDocumentKeyDown = (evt) => {
     evt.preventDefault();
     closeImgEditor();
   }
+};
+
+const onUploadCancelBtnClick = () => {
+  closeImgEditor();
 };
 
 function closeImgEditor () {

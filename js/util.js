@@ -42,4 +42,12 @@ const showAlert = (message) => {
   }, ERROR_MESSAGE_DELAY);
 };
 
-export {getRandomInteger, isEscapeKey, numDecline, showAlert};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomInteger, isEscapeKey, numDecline, showAlert, debounce};

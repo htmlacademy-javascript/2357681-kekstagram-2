@@ -1,6 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {picturesContainer} from './render-thumbnails.js';
-import { clearComments, renderComments } from './render-comments.js';
+import {clearComments, renderComments} from './render-comments.js';
 
 const fullPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
