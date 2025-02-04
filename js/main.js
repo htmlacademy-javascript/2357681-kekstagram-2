@@ -4,6 +4,7 @@ import {initClickListener} from './open-full-picture.js';
 import {openImgEditor, closeImgEditor, onFormSubmit, showFullSuccessMessage, showFullErrorMessage} from './upload-image-form.js';
 import {getData, sendData} from './api.js';
 import {makeFiltersActive, initFilterListeners} from './filters.js';
+import './upload-users-photo.js';
 
 const RENDER_PHOTOS_DELAY = 500;
 
