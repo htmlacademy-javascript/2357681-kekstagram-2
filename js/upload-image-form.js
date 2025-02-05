@@ -31,10 +31,13 @@ const pristine = new Pristine(uploadImgForm, {
   errorClass: 'img-upload__field-wrapper--error',
 });
 
+const isErrorOpened = () => document.querySelector('.error') !== null;
+
 const onDocumentKeyDown = (evt) => {
   if (isEscapeKey(evt)
     && !evt.target.classList.contains('text__hashtags')
     && !evt.target.classList.contains('text__description')
+    && !isErrorOpened()
   ) {
     evt.preventDefault();
     closeImgEditor();
@@ -120,12 +123,13 @@ const onCloseButtonClick = () => {
   hideModalMessage();
 };
 
-const onEscPress = (evt) => {
+const onEscCloseModalMessage = (evt) => {
   if (isEscapeKey(evt)) {
     hideModalMessage();
-    document.removeEventListener('keydown', onEscPress);
+    document.removeEventListener('keydown', onEscCloseModalMessage);
   }
 };
+
 
 const onFormSubmit = (cb) => {
   uploadImgForm.addEventListener('submit', async (evt) => {
@@ -135,7 +139,7 @@ const onFormSubmit = (cb) => {
       blockSubmitButton();
       successButtonElement.addEventListener('click', onCloseButtonClick);
       errorButtonElement.addEventListener('click', onCloseButtonClick);
-      document.addEventListener('keydown', onEscPress);
+      document.addEventListener('keydown', onEscCloseModalMessage);
       document.addEventListener('click', onBodyClick);
       await cb(new FormData(uploadImgForm));
       unblockSubmitButton();

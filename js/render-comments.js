@@ -1,9 +1,10 @@
+const VISIBLE_COMMENTS = 5;
+
 const commentsList = document.querySelector('.social__comments');
 const commentTemplate = commentsList.querySelector('.social__comment');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 
-const VISIBLE_COMMENTS = 5;
 let shownComments = 0;
 let comments = [];
 
