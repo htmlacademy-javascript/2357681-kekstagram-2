@@ -1,9 +1,9 @@
-import {showAlert, debounce, RENDER_PHOTOS_DELAY} from './util.js';
+import {showAlert} from './util.js';
 import {renderThumbnails} from './render-thumbnails.js';
 import {initClickOnThumbnailsListener} from './open-full-picture.js';
 import {openImgEditor, closeImgEditor, onFormSubmit, showFullSuccessMessage, showFullErrorMessage} from './upload-image-form.js';
 import {getData, sendData} from './api.js';
-import {makeFiltersActive, initFilterListeners} from './filters.js';
+import { initFilterListeners} from './filters.js';
 import {uploadUsersPhoto} from './upload-users-photo.js';
 
 openImgEditor();
@@ -24,8 +24,7 @@ try {
   const data = await getData();
   renderThumbnails(data);
   initClickOnThumbnailsListener(data);
-  makeFiltersActive();
-  initFilterListeners(data, debounce(renderThumbnails, RENDER_PHOTOS_DELAY));
+  initFilterListeners(data);
 } catch (err) {
   showAlert(err.message);
 }

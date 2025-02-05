@@ -1,4 +1,4 @@
-const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram1';
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
 const Route = {
   GET_DATA: '/data',
@@ -31,4 +31,4 @@ const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
 
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
 
-export { getData, sendData };
+export {getData, sendData};
