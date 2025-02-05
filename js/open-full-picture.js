@@ -41,7 +41,7 @@ function closeFullPicture() {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-const initClickListener = (picturesDataList) => {
+const initClickOnThumbnailsListener = (picturesDataList) => {
   picturesContainer.addEventListener('click', (evt) => {
     const currentPicture = evt.target.closest('.picture');
 
@@ -51,5 +51,5 @@ const initClickListener = (picturesDataList) => {
   });
 };
 
-export {openFullPicture, closeFullPicture, initClickListener};
+export {openFullPicture, closeFullPicture, initClickOnThumbnailsListener};
 
