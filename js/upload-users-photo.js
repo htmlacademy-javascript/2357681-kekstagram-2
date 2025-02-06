@@ -12,8 +12,9 @@ const uploadUsersPhoto = () => {
     if (matches) {
       const url = URL.createObjectURL(file);
       imgDefaultElement.src = url;
-      photoPreviewEffectsElement.forEach(
-        (it) => (it.style.backgroundImage = `url(${url})`));
+      photoPreviewEffectsElement.forEach((it) => {
+        it.style.backgroundImage = `url(${url})`;
+      });
     }
   });
 };
