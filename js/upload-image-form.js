@@ -37,7 +37,7 @@ const pristine = new Pristine(uploadImgForm, {
   errorClass: 'img-upload__field-wrapper--error',
 });
 
-const isErrorOpened = () => document.querySelector('.error') !== null;
+const isErrorOpened = () => document.querySelector('.error') !== null && !document.querySelector('.error').classList.contains('hidden');
 
 const onDocumentKeyDown = (evt) => {
   if (isEscapeKey(evt)
