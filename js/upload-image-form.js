@@ -2,7 +2,10 @@ import { resetEffects } from './add-effect-slider.js';
 import { hashtagError, isHashtagValid } from './check-hashtag.js';
 import {isEscapeKey} from './util.js';
 
-const SCALE_STEP = 0.25;
+const DEFAULT_SIZE = 100;
+const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
 
 const pageBody = document.querySelector('body');
 const uploadImgForm = document.querySelector('.img-upload__form');
@@ -10,19 +13,22 @@ const uploadImgForm = document.querySelector('.img-upload__form');
 const fileField = uploadImgForm.querySelector('#upload-file');
 const editorImgForm = uploadImgForm.querySelector('.img-upload__overlay');
 const uploadCancelBtn = editorImgForm.querySelector('#upload-cancel');
+
 const hashtagInput = uploadImgForm.querySelector('.text__hashtags');
 const commentInput = uploadImgForm.querySelector('.text__description');
 const submitButton = uploadImgForm.querySelector('.img-upload__submit');
 const image = uploadImgForm.querySelector('.img-upload__preview img');
+
 const scaleControl = uploadImgForm.querySelector('.scale__control--value');
-const smaller = uploadImgForm.querySelector('.scale__control--smaller');
-const bigger = uploadImgForm.querySelector('.scale__control--bigger');
+const smallerButton = uploadImgForm.querySelector('.scale__control--smaller');
+const biggerButton = uploadImgForm.querySelector('.scale__control--bigger');
+
 const successElement = document.querySelector('#success').content.querySelector('.success');
 const successButtonElement = document.querySelector('#success').content.querySelector('.success__button');
 const errorElement = document.querySelector('#error').content.querySelector('.error');
 const errorButtonElement = document.querySelector('#error').content.querySelector('.error__button');
+
 const commentError = 'Комментарий не должен быть длиннее 140 символов';
-let scale = 1;
 
 
 const pristine = new Pristine(uploadImgForm, {
@@ -48,12 +54,20 @@ const onUploadCancelBtnClick = () => {
   closeImgEditor();
 };
 
+const scaleImage = (value) => {
+  image.style.transform = `scale(${value / 100})`;
+  scaleControl.value = `${value}%`;
+};
+
+const resetScale = () => scaleImage(DEFAULT_SIZE);
+
 function closeImgEditor () {
   editorImgForm.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   uploadImgForm.reset();
   pristine.reset();
   resetEffects();
+  resetScale(DEFAULT_SIZE);
   document.removeEventListener('keydown', onDocumentKeyDown);
   uploadCancelBtn.removeEventListener('click', onUploadCancelBtnClick);
   fileField.value = '';
@@ -130,7 +144,6 @@ const onEscCloseModalMessage = (evt) => {
   }
 };
 
-
 const onFormSubmit = (cb) => {
   uploadImgForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
@@ -151,21 +164,25 @@ const isCommentValid = (value) => value.length <= 140;
 
 
 const onSmallerClick = () => {
-  if (scale > SCALE_STEP) {
-    image.style.transform = `scale(${scale -= SCALE_STEP})`;
-    scaleControl.value = `${scale * 100}%`;
+  const currentValue = parseInt(scaleControl.value, 10);
+  let newValue = currentValue - SCALE_STEP;
+  if (newValue < MIN_SCALE) {
+    newValue = MIN_SCALE;
   }
+  scaleImage(newValue);
 };
 
 const onBiggerClick = () => {
-  if (scale < 1) {
-    image.style.transform = `scale(${scale += SCALE_STEP})`;
-    scaleControl.value = `${scale * 100}%`;
+  const currentValue = parseInt(scaleControl.value, 10);
+  let newValue = currentValue + SCALE_STEP;
+  if (newValue > MAX_SCALE) {
+    newValue = MAX_SCALE;
   }
+  scaleImage(newValue);
 };
 
-smaller.addEventListener('click', onSmallerClick);
-bigger.addEventListener('click', onBiggerClick);
+smallerButton.addEventListener('click', onSmallerClick);
+biggerButton.addEventListener('click', onBiggerClick);
 
 pristine.addValidator(hashtagInput, isHashtagValid, hashtagError);
 
