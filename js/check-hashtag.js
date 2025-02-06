@@ -15,41 +15,41 @@ const isHashtagValid = (value) => {
     return true;
   }
 
-  const arrayInput = textInput.split(/\s+/);
+  const arrayInputs = textInput.split(/\s+/);
 
   const rules = [
     {
-      check: arrayInput.some((item) => item === '#'),
+      check: arrayInputs.some((item) => item === '#'),
       error: 'Хештег не может состоять только из одной решётки',
     },
 
     {
-      check: arrayInput.some((item) => item.slice(1).includes('#')),
+      check: arrayInputs.some((item) => item.slice(1).includes('#')),
       error: 'Хештеги разделяются пробелами',
     },
 
     {
-      check: arrayInput.some((item) => item[0] !== '#'),
+      check: arrayInputs.some((item) => item[0] !== '#'),
       error: 'Хештег должен начинаться с символа \'#\'',
     },
 
     {
-      check: arrayInput.some((item, num, array) => array.includes(item, num + 1)),
+      check: arrayInputs.some((item, num, arrays) => arrays.includes(item, num + 1)),
       error: 'Хештеги не должны повторяться',
     },
 
     {
-      check: arrayInput.some((item) => item.length > MAX_SYMBOLS),
+      check: arrayInputs.some((item) => item.length > MAX_SYMBOLS),
       error: `Максимальная длина одного хештега - ${MAX_SYMBOLS} символов, включая решётку`,
     },
 
     {
-      check: arrayInput.length > MAX_HASHTAG,
+      check: arrayInputs.length > MAX_HASHTAG,
       error: `Нельзя указать больше ${MAX_HASHTAG} ${numDecline(MAX_HASHTAG, 'хештега', 'хештегов', 'хештегов')}`,
     },
 
     {
-      check: arrayInput.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
+      check: arrayInputs.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
       error: 'Хештег содержит недопустимые символы (спецсимвол, пробел, знак пунктуации или эмодзи)',
     },
 

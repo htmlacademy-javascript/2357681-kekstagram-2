@@ -8,6 +8,7 @@ const imgFiltersElement = document.querySelector('.img-filters');
 const [defaultButtonElement, randomButtonElement, discussedButtonElement] = imgFiltersElement.querySelectorAll('.img-filters__button');
 
 let activeFilter = defaultButtonElement;
+let pictures = [];
 
 const clearThumbnails = () => document.querySelectorAll('.picture').forEach((item) => {
   item.remove();
@@ -20,8 +21,6 @@ const setActiveFilter = (button) => {
 };
 
 const mixThumbnails = () => Math.random() - 0.5;
-
-let pictures = [];
 
 const selectFilter = () => {
   clearThumbnails();
@@ -61,7 +60,7 @@ const onFilterChange = (evt) => {
 const initFilterListeners = (picturesData) => {
   imgFiltersElement.classList.remove('img-filters--inactive');
 
-  imgFiltersElement.addEventListener('click',onFilterChange);
+  imgFiltersElement.addEventListener('click', onFilterChange);
 
   pictures = picturesData;
 };
