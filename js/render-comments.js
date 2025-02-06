@@ -1,15 +1,16 @@
+const VISIBLE_COMMENTS = 5;
+
 const commentsList = document.querySelector('.social__comments');
 const commentTemplate = commentsList.querySelector('.social__comment');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 
-const VISIBLE_COMMENTS = 5;
 let shownComments = 0;
 let comments = [];
 
 commentsList.innerHTML = '';
 
-const renderNextComments = () => {
+const onCommentsLoaderBtnClick = () => {
   const commentsFragment = document.createDocumentFragment();
   const renderedComments = comments.slice(shownComments, shownComments + VISIBLE_COMMENTS);
   const renderedCommentsLength = renderedComments.length + shownComments;
@@ -38,16 +39,16 @@ const renderNextComments = () => {
 
 const renderComments = (currentPhotoComments) => {
   comments = currentPhotoComments;
-  renderNextComments();
+  onCommentsLoaderBtnClick();
 
-  commentsLoader.addEventListener('click', renderNextComments);
+  commentsLoader.addEventListener('click', onCommentsLoaderBtnClick);
 };
 
 const clearComments = () => {
   shownComments = 0;
   commentsList.innerHTML = '';
   commentsLoader.classList.remove('hidden');
-  commentsLoader.removeEventListener('click', renderNextComments);
+  commentsLoader.removeEventListener('click', onCommentsLoaderBtnClick);
 };
 
 export {clearComments, renderComments};

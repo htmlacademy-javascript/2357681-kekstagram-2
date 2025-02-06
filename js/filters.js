@@ -1,44 +1,68 @@
 import {renderThumbnails} from './render-thumbnails.js';
+import {debounce, RENDER_PHOTOS_DELAY} from './util.js';
 
 const PHOTOS_COUNT = 10;
+const ACTIVE_CLASS = 'img-filters__button--active';
 
 const imgFiltersElement = document.querySelector('.img-filters');
-const defaultFilterButton = imgFiltersElement.querySelector('#filter-default');
-const randomFilterButton = imgFiltersElement.querySelector('#filter-random');
-const discussedFilterButton = imgFiltersElement.querySelector('#filter-discussed');
+const [defaultButtonElement, randomButtonElement, discussedButtonElement] = imgFiltersElement.querySelectorAll('.img-filters__button');
 
-const makeFiltersActive = () => {
-  imgFiltersElement.classList.remove('img-filters--inactive');
-};
+let activeFilter = defaultButtonElement;
+let pictures = [];
+
+const clearThumbnails = () => document.querySelectorAll('.picture').forEach((item) => {
+  item.remove();
+});
 
 const setActiveFilter = (button) => {
-  document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-  button.classList.add('img-filters__button--active');
+  activeFilter.classList.remove(ACTIVE_CLASS);
+  button.classList.add(ACTIVE_CLASS);
+  activeFilter = button;
 };
 
 const mixThumbnails = () => Math.random() - 0.5;
 
-const compareThumbnails = (photoA, photoB) => {
-  const rankA = photoA.comments.length;
-  const rankB = photoB.comments.length;
-  return rankB - rankA;
+const selectFilter = () => {
+  clearThumbnails();
+
+  const compareThumbnails = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
+  let filteredData = [];
+
+  switch (activeFilter) {
+    case randomButtonElement:
+      filteredData = pictures
+        .toSorted(mixThumbnails)
+        .slice(0, PHOTOS_COUNT);
+      break;
+
+    case discussedButtonElement:
+      filteredData = pictures.toSorted(compareThumbnails);
+      break;
+    default:
+      filteredData = pictures;
+  }
+  renderThumbnails(filteredData);
 };
 
-const initFilterListeners = (photos) => {
-  defaultFilterButton.addEventListener('click', (evt) => {
-    renderThumbnails(photos);
-    setActiveFilter(evt.target);
-  });
+const debounceFilterRender = debounce(selectFilter, RENDER_PHOTOS_DELAY);
+const onFilterChange = (evt) => {
 
-  randomFilterButton.addEventListener('click', (evt) => {
-    renderThumbnails(photos.slice().sort(mixThumbnails).slice(0, PHOTOS_COUNT));
-    setActiveFilter(evt.target);
-  });
+  const targetButton = evt.target;
+  if (activeFilter === targetButton) {
+    return;
+  }
 
-  discussedFilterButton.addEventListener('click', (evt) => {
-    renderThumbnails(photos.slice().sort(compareThumbnails));
-    setActiveFilter(evt.target);
-  });
+  setActiveFilter(targetButton);
+  debounceFilterRender();
 };
 
-export {makeFiltersActive, initFilterListeners};
+
+const initFilterListeners = (picturesData) => {
+  imgFiltersElement.classList.remove('img-filters--inactive');
+
+  imgFiltersElement.addEventListener('click', onFilterChange);
+
+  pictures = picturesData;
+};
+
+export {initFilterListeners};
