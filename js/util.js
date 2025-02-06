@@ -1,3 +1,4 @@
+const RENDER_PHOTOS_DELAY = 500;
 const ERROR_MESSAGE_DELAY = 5000;
 
 const errorLoadDataTemplate = document.querySelector('#data-error').content;
@@ -50,4 +51,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export {getRandomInteger, isEscapeKey, numDecline, showAlert, debounce};
+export {getRandomInteger, isEscapeKey, numDecline, showAlert, debounce, RENDER_PHOTOS_DELAY};
